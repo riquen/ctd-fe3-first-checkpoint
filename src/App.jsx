@@ -1,33 +1,61 @@
-import { useState } from "react"
-import { InputColor } from "./components/InputColor"
-import { InputName } from "./components/InputName"
+import { useState } from 'react'
+import './App.css'
 
 function App() {
-  const [name, setName] = useState('')
-  const [color, setColor] = useState('')
-  const [isValid, setIsValid] = useState(true)
+  const [invalid, setInvalid] = useState(false)
+  const [data, setData] = useState({
+    name: '',
+    color: '',
+  })
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-  }
+    e.preventDefault()
+    const { nameInput, colorInput } = e.target.elements
+    const data = {
+      name: nameInput.value.trim(),
+      color: colorInput.value,
+    }
 
-  const containsNumber = (str) => {
-    return /[0-9]/.test(str);
-  }
+    const containsNumber = (str) => {
+      return /\d/.test(str);
+    }
 
-  const handleClick = () => {
-    if (name && name.length < 3) setIsValid(false)
-    if (color && color.length < 6 && !containsNumber(color)) setIsValid(false)
+    if (data.name.length < 3 || data.color.length < 6 || !containsNumber(data.color)) {
+      setInvalid(true)
+    } else {
+      setInvalid(false)
+      setData(data)
+    }
   }
 
   return (
     <div className="App">
-     <form onSubmit={handleSubmit}>
+     <form onSubmit={handleSubmit} className={invalid ? 'invalid' : ''}>
       <h1>ADICIONAR NOVA COR</h1>
-      <InputName name={name} setName={setName} />
-      <InputColor color={color} setColor={setColor} />
-      <button type="submit" onClick={handleClick}>Adicionar</button>
+
+      <div>
+        <label htmlFor='nameInput'>Nome</label>
+        <input
+          id='nameInput'
+          type='text'
+        />
+      </div>
+
+      <div>
+        <label htmlFor='colorInput'>Cor</label>
+        <input
+          id='colorInput'
+          type='text'
+          placeholder="Insita sua cor no formato Hexadecimal"
+        />
+      </div>
+
+      <button type="submit">Adicionar</button>
      </form>
+
+     {invalid && <span>Por favor, verifique os dados inseridos no formulário</span>}
+
+     {!invalid && <h3>{data.name} {data.color}</h3>}
     </div>
   )
 }
