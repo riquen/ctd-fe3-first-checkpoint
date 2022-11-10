@@ -30,32 +30,36 @@ function App() {
 
   return (
     <div className="App">
-     <form onSubmit={handleSubmit} className={invalid ? 'invalid' : ''}>
-      <h1>ADICIONAR NOVA COR</h1>
+      <div className='content'>
+        <form onSubmit={handleSubmit} className={invalid ? 'invalid' : ''}>
+          <h1>ADICIONAR NOVA COR</h1>
 
-      <div>
-        <label htmlFor='nameInput'>Nome</label>
-        <input
-          id='nameInput'
-          type='text'
-        />
+          <div className='inputContainer'>
+            <div className='inputDiv'>
+              <label htmlFor='nameInput'>Nome</label>
+              <input
+                id='nameInput'
+                type='text'
+              />
+            </div>
+
+            <div className='inputDiv'>
+              <label htmlFor='colorInput'>Cor</label>
+              <input
+                id='colorInput'
+                type='text'
+                placeholder="Insira sua cor no formato Hexadecimal"
+              />
+            </div>
+          </div>
+
+          <button type="submit">ADICIONAR</button>
+        </form>
+
+        {invalid && <span>Por favor, verifique os dados inseridos no formulário</span>}
+
+        {!invalid && <h3>{data.name} {data.color}</h3>}
       </div>
-
-      <div>
-        <label htmlFor='colorInput'>Cor</label>
-        <input
-          id='colorInput'
-          type='text'
-          placeholder="Insita sua cor no formato Hexadecimal"
-        />
-      </div>
-
-      <button type="submit">Adicionar</button>
-     </form>
-
-     {invalid && <span>Por favor, verifique os dados inseridos no formulário</span>}
-
-     {!invalid && <h3>{data.name} {data.color}</h3>}
     </div>
   )
 }
