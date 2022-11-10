@@ -1,9 +1,12 @@
-//Este componente deverá receber dados por Props e mostrar as Informações em Tela
+import './Card.css'
 
-export function Card () {
+export function Card ({ colorName, colorHex }) {
   return (
-    <div>
-
-    </div>
+    <>
+      <div className='cardContainer' style={{ background: `#${colorHex}` }}>
+        <p>{colorName}</p>
+        <span>{`#${colorHex}`}</span>
+      </div>
+    </>
   )
 }

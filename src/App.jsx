@@ -1,12 +1,10 @@
 import { useState } from 'react'
 import './App.css'
+import { Card } from './Card'
 
 function App() {
   const [invalid, setInvalid] = useState(false)
-  const [data, setData] = useState({
-    name: '',
-    color: '',
-  })
+  const [cards, setCards] = useState([])
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -24,8 +22,12 @@ function App() {
       setInvalid(true)
     } else {
       setInvalid(false)
-      setData(data)
+      setCards([...cards, data])
     }
+  }
+
+  const handleChange = () => {
+    setInvalid(false)
   }
 
   return (
@@ -39,7 +41,9 @@ function App() {
               <label htmlFor='nameInput'>Nome</label>
               <input
                 id='nameInput'
+                className={invalid ? 'invalidInput' : ''}
                 type='text'
+                onChange={handleChange}
               />
             </div>
 
@@ -47,18 +51,33 @@ function App() {
               <label htmlFor='colorInput'>Cor</label>
               <input
                 id='colorInput'
+                className={invalid ? 'invalidInput' : ''}
                 type='text'
                 placeholder="Insira sua cor no formato Hexadecimal"
+                onChange={handleChange}
               />
             </div>
           </div>
 
-          <button type="submit">ADICIONAR</button>
+          <button type="submit" disabled={invalid}>ADICIONAR</button>
         </form>
 
-        {invalid && <span>Por favor, verifique os dados inseridos no formulário</span>}
+        {invalid && 
+          <span className={invalid ? 'invalidSpan' : ''}>
+            Por favor, verifique os dados inseridos no formulário
+          </span>
+        }
 
-        {!invalid && <h3>{data.name} {data.color}</h3>}
+        <h1>CORES FAVORITAS</h1>
+        <div className='favoriteColors'>
+          {cards.map(
+            card => {
+              return(
+                <Card key={card.color} colorName={card.name} colorHex={card.color} />
+              )
+            }
+          )}
+        </div>
       </div>
     </div>
   )
